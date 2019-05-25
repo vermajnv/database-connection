@@ -6,7 +6,7 @@ module.exports = class StudentDB {
         this.connection = db.createConnection(config);
     }
 
-    create(student)
+    create(students)
     {
 
     }
