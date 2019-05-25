@@ -6,19 +6,41 @@ module.exports = class StudentDB {
         this.connection = db.createConnection(config);
     }
 
-    create(students)
+    create(studentObj, cb)
     {
-
+        this.connection.connect();
+        this.connection.query('insert into student set ?', studentObj, (error, data) => {
+            cb(data);
+        });
+        this.connection.end();
     }
 
-    update(student_id)
+    update(studentToBeUpdate, cb)
     {
-
+        this.connection.connect();
+        const {name, ...studentObj} = studentToBeUpdate;
+        this.connection.query('update student set ? where ? ', [studentObj, {name : name}], (error, data) => {
+            cb(data);
+        });
+        this.connection.end();
     }
 
-    retreive(id)
+    delete(studentParam, cb)
     {
+        this.connection.connect();
+        this.connection.query('delete from student where ?', studentParam, (error, data) => {
+            cb(data);
+        });
+        this.connection.end();
+    }
 
+    retreiveWhere(studentParam, cb)
+    {
+        this.connection.connect();
+        this.connection.query('select * from student where ?', studentParam, (error, data) => {
+            cb(data);
+        });
+        this.connection.end();
     }
 
     retreiveAll(rows)
